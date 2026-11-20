@@ -52,13 +52,26 @@ jobs:
         run: python engine/scripts/make_map.py --project "$P"
       - name: Grade assets
         run: python engine/scripts/prep_assets.py --project "$P"
+      - name: Restore recorded takes
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.P }}/audio/takes
+          key: takes-${{ inputs.episode }}-${{ hashFiles(format('{0}/script.json', env.P), format('{0}/voice.json', env.P)) }}-${{ github.run_id }}
+          restore-keys: takes-${{ inputs.episode }}-${{ hashFiles(format('{0}/script.json', env.P), format('{0}/voice.json', env.P)) }}-
       - name: Voice
+        id: voice
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python tools/tts_gemini.py --project "$P"
           python engine/scripts/split_takes.py --project "$P"
           python engine/scripts/build_narration.py --project "$P"
+      - name: Save recorded takes
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.P }}/audio/takes
+          key: takes-${{ inputs.episode }}-${{ hashFiles(format('{0}/script.json', env.P), format('{0}/voice.json', env.P)) }}-${{ github.run_id }}
       - name: Sound
         run: |
           python engine/scripts/render.py --project "$P" --cues

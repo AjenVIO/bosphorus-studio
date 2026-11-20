@@ -14,6 +14,10 @@ MODELS = ["gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"]
 STYLE = ("Read this as the narrator of a serious history documentary: a deep, calm, measured voice, "
          "slightly grave, never theatrical. Leave a clear one-second pause at every paragraph break.")
 
+class EmptyAudio(Exception):
+    pass
+
+
 def call(model, key, text, voice):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
     body = {"contents": [{"parts": [{"text": text}]}],
@@ -22,7 +26,11 @@ def call(model, key, text, voice):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=300) as r:
         d = json.loads(r.read())
-    part = d["candidates"][0]["content"]["parts"][0]["inlineData"]
+    try:
+        part = d["candidates"][0]["content"]["parts"][0]["inlineData"]
+    except (KeyError, IndexError):
+        reason = (d.get("candidates") or [{}])[0].get("finishReason", "?")
+        raise EmptyAudio(f"no audio in response (finishReason={reason})")
     return base64.b64decode(part["data"]), part.get("mimeType", "")
 
 def main():
@@ -46,13 +54,16 @@ def main():
         text = style + "\n\n" + "\n\n".join(l["spoken"].strip() for l in take["lines"])
         pcm = None
         for m in models:
-            for attempt in range(3):
+            for attempt in range(4):
                 try:
                     pcm, mime = call(m, key, text, voice); break
+                except EmptyAudio as e:
+                    print(f"{m}: {e}, retrying")
+                    time.sleep(8 * (attempt + 1)); continue
                 except urllib.error.HTTPError as e:
                     msg = e.read().decode()[:300]
                     print(f"{m}: HTTP {e.code} {msg}")
-                    if e.code in (429, 500, 503) and attempt < 2:
+                    if e.code in (429, 500, 503) and attempt < 3:
                         time.sleep(20 * (attempt + 1)); continue
                     break
             if pcm: break
