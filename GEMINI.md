@@ -4,6 +4,8 @@ This repo makes narrated history documentaries for the YouTube channel **The Bos
 (English) and its Turkish twin **Boğaz Dosyaları**. Every frame is drawn by code (engine/, Skia in
 Python); images come from Wikimedia Commons with free licences; the voice is Gemini TTS.
 
+**Start here:** read `HANDOFF.md` (how the system runs) and `BACKLOG.md` (what to make next).
+
 ## Hard rules for any agent working here
 1. **Never run Python, pip or the render on the owner's PC.** All Python runs in GitHub Actions
    (`.github/workflows/render.yml`). On the PC you only edit files and use `git` and `gh`.
