@@ -131,7 +131,8 @@ jobs:
           ls parts/part_*.mp4 | sort | sed "s#^#file '$PWD/#; s#\$#'#" > parts/list.txt
           ffmpeg -v error -y -f concat -safe 0 -i parts/list.txt -i "$P/audio/mix.m4a" -map 0:v -map 1:a \
             -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart final/${{ inputs.episode }}.mp4
-          python engine/scripts/burn_captions.py --project "$P" --srt-only --out "$PWD/final/${{ inputs.episode }}.srt"
+          python engine/scripts/burn_captions.py --project "$P" --srt-only --out "out/${{ inputs.episode }}.srt"
+          cp "$P/out/${{ inputs.episode }}.srt" final/
           cp "$P/credits.md" final/ ; cp -r "$P/out/probe" final/probe ; cp "$P/out/photos_sheet.jpg" final/ || true
           cp "$P/photos.json" final/photos.resolved.json
           ffprobe -v error -show_entries format=duration,size -of compact final/${{ inputs.episode }}.mp4
