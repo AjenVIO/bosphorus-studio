@@ -14,7 +14,11 @@ on:
         default: "8"
 
 permissions:
-  contents: read
+  contents: write
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -eo pipefail -c 'exec > >(tee -a "$RUNNER_TEMP/steps.log") 2>&1; . {0}'
 
 env:
   P: episodes/${{ inputs.episode }}
@@ -31,10 +35,12 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu >/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu libgl1 libegl1 libfontconfig1 >/dev/null
           pip install -q -r requirements.txt
       - name: Fonts
-        run: python engine/scripts/get_fonts.py --project "$P"
+        run: |
+          python -c "import skia, numpy, PIL; print('skia', skia.__version__)"
+          python engine/scripts/get_fonts.py --project "$P"
       - name: Images (Wikimedia Commons, free licences only)
         run: |
           python tools/resolve_photos.py --project "$P"
@@ -85,7 +91,7 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libgl1 libegl1 libfontconfig1 >/dev/null
           pip install -q -r requirements.txt
       - uses: actions/download-artifact@v4
         with: { name: prepared, path: "${{ env.P }}" }
@@ -107,7 +113,7 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libgl1 libegl1 libfontconfig1 >/dev/null
           pip install -q -r requirements.txt
       - uses: actions/download-artifact@v4
         with: { name: prepared, path: "${{ env.P }}" }
