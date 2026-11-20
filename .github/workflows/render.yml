@@ -35,8 +35,8 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu libgl1 libegl1 libfontconfig1 >/dev/null
-          pip install -q -r requirements.txt
+          bash tools/setup_ci.sh
+
       - name: Fonts
         run: |
           python -c "import skia, numpy, PIL; print('skia', skia.__version__)"
@@ -94,12 +94,12 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libgl1 libegl1 libfontconfig1 >/dev/null
-          pip install -q -r requirements.txt
+          bash tools/setup_ci.sh
+
       - uses: actions/download-artifact@v4
         with: { name: prepared, path: "${{ env.P }}" }
       - name: Render chunk ${{ matrix.chunk.i }}
-        run: python engine/scripts/render.py --project "$P" --t0 ${{ matrix.chunk.t0 }} --t1 ${{ matrix.chunk.t1 }} --size ${{ inputs.size }} --out out/part_$(printf %03d ${{ matrix.chunk.i }}).mp4
+        run: python engine/scripts/render.py --project "$P" --t0 ${{ matrix.chunk.t0 }} --t1 ${{ matrix.chunk.t1 }} --size ${{ inputs.size }} --crf 20 --out out/part_$(printf %03d ${{ matrix.chunk.i }}).mp4
       - name: Report failure
         if: failure()
         run: echo "::error title=log::$(tail -n 60 "$RUNNER_TEMP/steps.log" | cut -c1-300 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
@@ -119,8 +119,8 @@ jobs:
         with: { python-version: "3.12", cache: pip }
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libgl1 libegl1 libfontconfig1 >/dev/null
-          pip install -q -r requirements.txt
+          bash tools/setup_ci.sh
+
       - uses: actions/download-artifact@v4
         with: { name: prepared, path: "${{ env.P }}" }
       - uses: actions/download-artifact@v4

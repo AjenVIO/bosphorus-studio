@@ -3,43 +3,45 @@
  "photos": [
   {
    "id": "P01",
-   "what": "Mehmed II's ships hauled overland (painting)",
+   "what": "The Conquest of Constantinople, Fausto Zonaro (1903)",
    "kind": "photo",
-   "query": [
-    "Zonaro Mehmed II",
-    "Fausto Zonaro Constantinople",
-    "Zonaro Fatih",
-    "Mehmed II conquest Constantinople painting"
-   ]
+   "commons": "File:Conquest of Constantinople, Zonaro.jpg"
   },
   {
    "id": "P02",
    "what": "Portrait of Mehmed II, Gentile Bellini, 1480",
    "kind": "photo",
-   "query": "Gentile Bellini Mehmed II portrait National Gallery"
+   "commons": "File:Bellini, Gentile - Sultan Mehmet II.jpg"
   },
   {
    "id": "P03",
-   "what": "The Ottoman fleet entering the Golden Horn (painting)",
+   "what": "The Siege of Constantinople, Jean Le Tavernier (after 1455): ships hauled overland",
    "kind": "photo",
-   "query": [
-    "Le Tavernier siege of Constantinople",
-    "Siege of Constantinople 1453 miniature",
-    "Ottoman fleet Golden Horn 1453",
-    "ships overland Galata 1453"
-   ]
+   "commons": "File:Le siège de Constantinople (1453) by Jean Le Tavernier after 1455.jpg"
   },
   {
    "id": "P04",
    "what": "The Golden Horn chain, Istanbul Naval Museum",
    "kind": "photo",
-   "query": "Golden Horn chain Istanbul Naval Museum"
+   "commons": "File:ByzantineChainAtGoldenHorn IstanbulNavalMuseum.JPG"
   },
   {
    "id": "P05",
    "what": "Map of Constantinople, Buondelmonti",
    "kind": "doc",
-   "query": "Buondelmonti map Constantinople"
+   "commons": "File:Map of Constantinople by Cristoforo Buondelmonti, Düsseldorf copy.png"
+  },
+  {
+   "id": "P06",
+   "what": "Le Tavernier miniature, detail: the fleet in the Golden Horn",
+   "kind": "photo",
+   "commons": "File:Le siège de Constantinople (1453) by Jean Le Tavernier after 1455.jpg",
+   "crop": [
+    0.0,
+    0.0,
+    1.0,
+    0.52
+   ]
   }
  ],
  "recreations": []

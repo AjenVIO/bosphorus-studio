@@ -6,7 +6,7 @@ into lines afterwards. Takes that already exist are kept (record them in AI Stud
 
   GEMINI_API_KEY=... python3 tools/tts_gemini.py --project episodes/E001-ships-over-land
 
-voice.json in the project (optional): {"voice": "Charon", "style": "...", "model": "..."}
+voice.json in the project (optional): {"voice": "Algenib", "style": "...", "model": "...", "post": "<ffmpeg -af chain>"}
 """
 import argparse, base64, json, os, pathlib, subprocess, sys, time, urllib.request, urllib.error
 
@@ -59,8 +59,9 @@ def main():
         if not pcm:
             sys.exit(f"TTS failed for {take['take']}")
         raw = tdir / f"{take['take']}.pcm"; raw.write_bytes(pcm)
+        post = ["-af", cfg["post"]] if cfg.get("post") else []
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "s16le", "-ar", "24000", "-ac", "1", "-i", str(raw),
-                        "-ar", "48000", str(out)], check=True)
+                        *post, "-ar", "48000", str(out)], check=True)
         raw.unlink()
         print(f"{out.name}: recorded with {m} / {voice}")
         time.sleep(3)
