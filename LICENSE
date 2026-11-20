@@ -1,0 +1,12 @@
+Copyright (c) 2026 The Bosphorus Files. All rights reserved.
+
+Everything in this repository is proprietary and may not be copied, modified, redistributed or
+used to make videos, except:
+
+- engine/ — the cinematic-film engine by exploraX, used under the MIT License (engine/LICENSE-MIT).
+  That licence continues to apply to that code.
+- Images downloaded at render time from Wikimedia Commons remain under their own licences, listed
+  per episode in credits.md.
+
+The scripts (episodes/*/script.json), scenes (episodes/*/scene.py), tools/, workflows, audio and
+rendered videos are the property of The Bosphorus Files and are not licensed for reuse.

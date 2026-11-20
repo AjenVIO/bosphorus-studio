@@ -1,0 +1,15 @@
+episodes/*/assets/photos/
+episodes/*/assets/prep/
+episodes/*/audio/lines/
+episodes/*/audio/*.m4a
+episodes/*/audio/*.wav
+episodes/*/audio/segments.json
+episodes/*/audio/timing.json
+episodes/*/out/
+episodes/*/fonts/
+episodes/*/sfx_cues.json
+episodes/*/credits.md
+out/
+__pycache__/
+*.pyc
+.env

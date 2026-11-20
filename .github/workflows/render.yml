@@ -1,0 +1,131 @@
+name: render
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode folder under episodes/ (e.g. E001-ships-over-land)"
+        required: true
+      size:
+        description: "Render size"
+        default: "1920x1080"
+      chunks:
+        description: "Parallel render jobs (max 12)"
+        default: "8"
+
+permissions:
+  contents: read
+
+env:
+  P: episodes/${{ inputs.episode }}
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Install
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu >/dev/null
+          pip install -q -r requirements.txt
+      - name: Fonts
+        run: python engine/scripts/get_fonts.py --project "$P"
+      - name: Images (Wikimedia Commons, free licences only)
+        run: |
+          python tools/resolve_photos.py --project "$P"
+          python engine/scripts/fetch_commons.py get --project "$P"
+          python engine/scripts/fetch_commons.py credits --project "$P"
+          mkdir -p "$P/out" && python tools/contact_sheet.py "$P"
+      - name: Map
+        if: hashFiles(format('{0}/map.json', env.P)) != ''
+        run: python engine/scripts/make_map.py --project "$P"
+      - name: Grade assets
+        run: python engine/scripts/prep_assets.py --project "$P"
+      - name: Voice
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python tools/tts_gemini.py --project "$P"
+          python engine/scripts/split_takes.py --project "$P"
+          python engine/scripts/build_narration.py --project "$P"
+      - name: Sound
+        run: |
+          python engine/scripts/render.py --project "$P" --cues
+          python engine/scripts/build_sfx.py --project "$P"
+          python engine/scripts/mix_soundtrack.py --project "$P"
+      - name: Review stills
+        run: |
+          D=$(python -c "import json;print(json.load(open('$P/audio/timing.json'))['total_duration'])")
+          T=$(python -c "d=$D;print(','.join(f'{d*k/8:.2f}' for k in range(8)))")
+          python engine/scripts/render.py --project "$P" --probe "$T" --size 1280x720
+      - id: plan
+        run: echo "matrix=$(python tools/plan_chunks.py "$P" "${{ inputs.chunks }}")" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prepared
+          path: ${{ env.P }}
+          retention-days: 2
+          include-hidden-files: true
+
+  render:
+    needs: prep
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        chunk: ${{ fromJSON(needs.prep.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Install
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          pip install -q -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with: { name: prepared, path: "${{ env.P }}" }
+      - name: Render chunk ${{ matrix.chunk.i }}
+        run: python engine/scripts/render.py --project "$P" --t0 ${{ matrix.chunk.t0 }} --t1 ${{ matrix.chunk.t1 }} --size ${{ inputs.size }} --out out/part_$(printf %03d ${{ matrix.chunk.i }}).mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part-${{ matrix.chunk.i }}
+          path: ${{ env.P }}/out/part_*.mp4
+          retention-days: 1
+
+  finish:
+    needs: [prep, render]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Install
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          pip install -q -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with: { name: prepared, path: "${{ env.P }}" }
+      - uses: actions/download-artifact@v4
+        with: { pattern: "part-*", path: parts, merge-multiple: true }
+      - name: Join and mux
+        run: |
+          mkdir -p final
+          ls parts/part_*.mp4 | sort | sed "s#^#file '$PWD/#; s#\$#'#" > parts/list.txt
+          ffmpeg -v error -y -f concat -safe 0 -i parts/list.txt -i "$P/audio/mix.m4a" -map 0:v -map 1:a \
+            -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart final/${{ inputs.episode }}.mp4
+          python engine/scripts/burn_captions.py --project "$P" --srt-only --out "$PWD/final/${{ inputs.episode }}.srt"
+          cp "$P/credits.md" final/ ; cp -r "$P/out/probe" final/probe ; cp "$P/out/photos_sheet.jpg" final/ || true
+          cp "$P/photos.json" final/photos.resolved.json
+          ffprobe -v error -show_entries format=duration,size -of compact final/${{ inputs.episode }}.mp4
+          ffmpeg -i final/${{ inputs.episode }}.mp4 -af ebur128 -f null - 2>&1 | grep -E "^\s+I:" | tail -1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-${{ inputs.episode }}
+          path: final
+          retention-days: 7

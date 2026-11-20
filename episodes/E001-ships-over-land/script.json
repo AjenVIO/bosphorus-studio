@@ -1,0 +1,54 @@
+{
+ "title": "The Night the Ships Crossed Land",
+ "takes": [
+  {"take": "T01_open", "lines": [
+   {"id": 1, "text": "On the morning of April 22, 1453, the defenders of Constantinople saw something impossible.",
+    "spoken": "On the morning of April twenty-second, fourteen fifty-three, the defenders of Constantinople saw something impossible.",
+    "hero": "the date, then the painting of the ships", "typed": "22 APRIL 1453"},
+   {"id": 2, "text": "Ottoman warships, floating inside their own harbor.",
+    "spoken": "Ottoman warships, floating inside their own harbor.",
+    "hero": "the ships painting, close", "typed": "", "gap_after": 0.6}
+  ]},
+  {"take": "T02_chain", "lines": [
+   {"id": 3, "text": "Three weeks earlier, they had sealed that harbor with a giant iron chain.",
+    "spoken": "Three weeks earlier, they had sealed that harbor with a giant iron chain.",
+    "hero": "map of Constantinople", "typed": "THE CHAIN"},
+   {"id": 4, "text": "Stretched across the Golden Horn on wooden floats, it kept the Sultan's fleet out.",
+    "spoken": "Stretched across the Golden Horn on wooden floats, it kept the Sultan's fleet out.",
+    "hero": "SEALED stamp on the map", "typed": ""},
+   {"id": 5, "text": "Mehmed the Second was 21 years old. He did not try to break it.",
+    "spoken": "Mehmed the Second was twenty-one years old. He did not try to break it.",
+    "hero": "Bellini portrait, counter 21", "typed": "MEHMED II"}
+  ]},
+  {"take": "T03_overland", "lines": [
+   {"id": 6, "text": "He built a road of greased logs over the hill behind Galata.",
+    "spoken": "He built a road of greased logs over the hill behind Galata.",
+    "hero": "Zonaro painting, the road arrow", "typed": "OVER THE HILL"},
+   {"id": 7, "text": "Then oxen and men dragged around 70 ships across dry land,",
+    "spoken": "Then oxen and men dragged around seventy ships across dry land,",
+    "hero": "counter 70 ships", "typed": "~70 SHIPS"},
+   {"id": 8, "text": "and slid them back into the water, behind the chain.",
+    "spoken": "and slid them back into the water, behind the chain.",
+    "hero": "the painting, close", "typed": ""}
+  ]},
+  {"take": "T04_close", "lines": [
+   {"id": 9, "text": "Now the harbor walls had to be guarded too, and the defenders were stretched even thinner.",
+    "spoken": "Now the harbor walls had to be guarded too, and the defenders were stretched even thinner.",
+    "hero": "TWO FRONTS", "typed": "TWO FRONTS"},
+   {"id": 10, "text": "Five weeks later, on May 29, Constantinople fell.",
+    "spoken": "Five weeks later, on May twenty-ninth, Constantinople fell.",
+    "hero": "29 MAY 1453, FALLEN stamp", "typed": "29 MAY 1453"},
+   {"id": 11, "text": "A chain said to be from that harbor is still on display in Istanbul today.",
+    "spoken": "A chain said to be from that harbor is still on display in Istanbul today.",
+    "hero": "the chain photo, then the whole wall", "typed": "", "gap_after": 1.2}
+  ]}
+ ],
+ "fact_notes": [
+  "Chain across the Golden Horn ordered 2 April 1453 (EBSCO Research Starters, Siege of Constantinople 1453).",
+  "22 April 1453: about 70 ships hauled overland on greased logs over the hill behind Galata/Pera into the Golden Horn (Britannica; Stanton, Medieval Maritime Warfare: 70-80; World History Encyclopedia: 70).",
+  "Mehmed II born 30 March 1432, so 21 in April 1453.",
+  "Defenders had to shift men to the Golden Horn walls, weakening the land defence (Stanton).",
+  "City fell 29 May 1453 (Britannica, Wikipedia).",
+  "A chain attributed to the 1453 boom is displayed at the Istanbul Naval Museum; attribution is traditional, hence 'said to be'."
+ ]
+}
