@@ -23,8 +23,11 @@ def main():
     for p in spec["photos"]:
         if p.get("commons") or p.get("url") or not p.get("query"):
             continue
-        r = fc.api(action="query", generator="search", gsrsearch=p["query"], gsrnamespace=6, gsrlimit=20, **fc.IIPROP)
-        pages = sorted((r.get("query") or {}).get("pages", []), key=lambda x: x.get("index", 0))
+        queries = p["query"] if isinstance(p["query"], list) else [p["query"]]
+        pages = []
+        for q in queries:
+            r = fc.api(action="query", generator="search", gsrsearch=q, gsrnamespace=6, gsrlimit=20, **fc.IIPROP)
+            pages += sorted((r.get("query") or {}).get("pages", []), key=lambda x: x.get("index", 0))
         pick = None
         for pg in pages:
             d = fc.info(pg)
