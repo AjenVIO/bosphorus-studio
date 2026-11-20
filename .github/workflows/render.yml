@@ -18,7 +18,7 @@ permissions:
 
 defaults:
   run:
-    shell: bash --noprofile --norc -eo pipefail -c 'exec > >(tee -a "$RUNNER_TEMP/steps.log") 2>&1; . {0}'
+    shell: bash tools/ci.sh {0}
 
 env:
   P: episodes/${{ inputs.episode }}
@@ -69,6 +69,9 @@ jobs:
           D=$(python -c "import json;print(json.load(open('$P/audio/timing.json'))['total_duration'])")
           T=$(python -c "d=$D;print(','.join(f'{d*k/8:.2f}' for k in range(8)))")
           python engine/scripts/render.py --project "$P" --probe "$T" --size 1280x720
+      - name: Report failure
+        if: failure()
+        run: echo "::error title=log::$(tail -n 60 "$RUNNER_TEMP/steps.log" | cut -c1-300 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
       - id: plan
         run: echo "matrix=$(python tools/plan_chunks.py "$P" "${{ inputs.chunks }}")" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
@@ -97,6 +100,9 @@ jobs:
         with: { name: prepared, path: "${{ env.P }}" }
       - name: Render chunk ${{ matrix.chunk.i }}
         run: python engine/scripts/render.py --project "$P" --t0 ${{ matrix.chunk.t0 }} --t1 ${{ matrix.chunk.t1 }} --size ${{ inputs.size }} --out out/part_$(printf %03d ${{ matrix.chunk.i }}).mp4
+      - name: Report failure
+        if: failure()
+        run: echo "::error title=log::$(tail -n 60 "$RUNNER_TEMP/steps.log" | cut -c1-300 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
       - uses: actions/upload-artifact@v4
         with:
           name: part-${{ matrix.chunk.i }}
@@ -130,6 +136,17 @@ jobs:
           cp "$P/photos.json" final/photos.resolved.json
           ffprobe -v error -show_entries format=duration,size -of compact final/${{ inputs.episode }}.mp4
           ffmpeg -i final/${{ inputs.episode }}.mp4 -af ebur128 -f null - 2>&1 | grep -E "^\s+I:" | tail -1
+      - name: Report failure
+        if: failure()
+        run: echo "::error title=log::$(tail -n 60 "$RUNNER_TEMP/steps.log" | cut -c1-300 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+      - name: Publish as draft release (downloadable without artifacts)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="render-${{ inputs.episode }}-${{ github.run_number }}"
+          (cd final && zip -qr ../review.zip probe photos_sheet.jpg credits.md photos.resolved.json 2>/dev/null || true)
+          gh release create "$TAG" --draft --title "$TAG" --notes "Render of ${{ inputs.episode }} (run ${{ github.run_id }})" \
+            final/${{ inputs.episode }}.mp4 final/${{ inputs.episode }}.srt review.zip
       - uses: actions/upload-artifact@v4
         with:
           name: final-${{ inputs.episode }}
