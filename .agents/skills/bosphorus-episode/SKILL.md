@@ -27,9 +27,11 @@ and `engine/references/story.md` once per session: they are the rules for scenes
    ("File:...", exact) or `query` (a Commons search; the workflow picks the first free-licensed hit
    ≥1000 px and writes it back). Prefer paintings, miniatures, maps and engravings old enough to be
    public domain. `grade`: natural for paintings, bw for photographs.
-6. **voice.json.** `{"voice": "Charon"}` (deep male documentary). Other Gemini voices: Orus, Algenib,
-   Iapetus. Voice runs in Actions with the `GEMINI_API_KEY` secret (free tier). Or record takes in
-   AI Studio by hand and commit them as `audio/takes/<take>.wav`; existing takes are never re-recorded.
+6. **voice.json.** Copy `episodes/E001-ships-over-land/voice.json` as is: channel voice is **Orus** with the documentary
+   style prompt and the EQ/compression `post` chain (owner approved, Nov 2026). Do not change the voice
+   unless the owner asks; to audition voices run `gh workflow run voice-samples -f voices="Orus,Gacrux"`.
+   Voice runs in Actions with the `GEMINI_API_KEY` secret (free tier). Recorded takes are cached between
+   runs, so a failed run does not spend the quota again.
 7. **scene.py.** One wall, clusters left to right, one hero per line, hits on spoken words via
    `doc.W(line, "word")` (search the SPOKEN text). Fit every print fully in frame: frame height in
    world units = 2160 / zoom. Keep big type ≥ 500 units. Add a wide camera key between far clusters

@@ -6,7 +6,7 @@ into lines afterwards. Takes that already exist are kept (record them in AI Stud
 
   GEMINI_API_KEY=... python3 tools/tts_gemini.py --project episodes/E001-ships-over-land
 
-voice.json in the project (optional): {"voice": "Algenib", "style": "...", "model": "...", "post": "<ffmpeg -af chain>"}
+voice.json in the project (optional): {"voice": "Orus", "style": "...", "model": "...", "post": "<ffmpeg -af chain>"}
 """
 import argparse, base64, json, os, pathlib, subprocess, sys, time, urllib.request, urllib.error
 
@@ -42,7 +42,7 @@ def main():
     proj = pathlib.Path(a.project)
     script = json.loads((proj / "script.json").read_text())
     cfg = json.loads((proj / "voice.json").read_text()) if (proj / "voice.json").exists() else {}
-    voice, style = cfg.get("voice", "Charon"), cfg.get("style", STYLE)
+    voice, style = cfg.get("voice", "Orus"), cfg.get("style", STYLE)
     models = [cfg["model"]] if cfg.get("model") else MODELS
     tdir = proj / "audio" / "takes"; tdir.mkdir(parents=True, exist_ok=True)
     for take in script["takes"]:

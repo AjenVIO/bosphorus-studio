@@ -1,5 +1,5 @@
 {
- "voice": "Algenib",
+ "voice": "Orus",
  "style": "You are the narrator of a cinematic history documentary. Voice: deep, warm, resonant and full-bodied, with quiet gravitas, close to the microphone. Pace: unhurried, about 135 words per minute. Let the story breathe: slow down and drop slightly lower on dramatic turns, let a hint of awe in on surprising facts, and end each section with weight. Never theatrical, never shouting. Leave a clear one-second pause at every paragraph break.",
  "post": "highpass=f=55,bass=g=3.5:f=110:w=0.7,equalizer=f=250:t=q:w=1.2:g=-1.5,equalizer=f=3200:t=q:w=1.0:g=1.5,acompressor=threshold=-21dB:ratio=2.6:attack=12:release=180:makeup=2.5"
 }
