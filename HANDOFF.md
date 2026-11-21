@@ -13,12 +13,19 @@ Turkish twin **Boğaz Dosyaları**. The owner talks to you in Turkish; answer in
 
 Repo: https://github.com/AjenVIO/bosphorus-studio · local: `E:\bosphorus-studio`
 
-## One-time setup on the PC (check, do not repeat)
-```
-gh --version          # if missing: winget install GitHub.cli
-gh auth status        # if not logged in: gh auth login  (browser flow)
-git config user.name  # if empty: git config user.name "AjenVIO"
-```
+## GitHub account: this repo uses **AjenVIO** (the PC also has another account; never change it)
+- git: this folder is already pinned to AjenVIO (remote `https://AjenVIO@github.com/...` and a local
+  credential username), so git push asks for / uses the AjenVIO login only here.
+- gh: at the start of every terminal session in this repo run (PowerShell):
+  ```
+  $env:GH_TOKEN = (gh auth token --user AjenVIO)
+  gh api user --jq .login        # must print AjenVIO
+  ```
+  This affects only that terminal; the global gh account stays as it is. Never run `gh auth switch`
+  or `gh auth logout` and never edit the global git config.
+- One-time (owner does it once): `gh auth login` → GitHub.com → HTTPS → browser, signing in as
+  AjenVIO. gh keeps both accounts.
+
 Secret `GEMINI_API_KEY` is already set in the repo (free-tier key, used for TTS).
 
 ## Make an episode
