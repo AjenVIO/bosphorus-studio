@@ -1,0 +1,143 @@
+{
+ "grade": "natural",
+ "photos": [
+  {
+   "id": "P01",
+   "what": "Halfdan runic graffiti in Hagia Sophia south gallery",
+   "kind": "photo",
+   "commons": "File:Runen Hagia Sophia.JPG",
+   "query": ["Runen Hagia Sophia", "Halfdan Hagia Sophia runes"]
+  },
+  {
+   "id": "P02",
+   "what": "Emperor Basil II crowned by Christ, Marciana Psalter",
+   "kind": "photo",
+   "commons": "File:BasilII.jpg",
+   "query": ["Basil II psalter", "Basil II Venice Marciana"]
+  },
+  {
+   "id": "P03",
+   "what": "Clash between the armies of Bardas Skleros and Bardas Phokas, Madrid Skylitzes",
+   "kind": "photo",
+   "commons": "File:Clash between the armies of Bardas Skleros and Bardas Phokas.jpg",
+   "query": ["Clash between the armies of Bardas Skleros and Bardas Phokas", "Madrid Skylitzes battle"]
+  },
+  {
+   "id": "P04",
+   "what": "Grand Prince Vladimir of Kiev",
+   "kind": "photo",
+   "commons": "File:Vladimir I of Kiev (Titulyarnik).jpg",
+   "query": ["Vladimir I of Kiev", "Prince Vladimir Kiev Titulyarnik"]
+  },
+  {
+   "id": "P05",
+   "what": "The Baptism of Saint Prince Vladimir by Viktor Vasnetsov",
+   "kind": "photo",
+   "commons": "File:Baptism of Saint Prince Vladimir by Viktor Vasnetsov.jpg",
+   "query": ["Baptism of Saint Prince Vladimir Vasnetsov", "Baptism of Vladimir"]
+  },
+  {
+   "id": "P06",
+   "what": "Varangian longships on the river (Guests from Overseas, Nicholas Roerich)",
+   "kind": "photo",
+   "query": ["Guests from Overseas Roerich", "Roerich Guests from Overseas", "Viking ship river painting"]
+  },
+  {
+   "id": "P07",
+   "what": "Map of Constantinople, Cristoforo Buondelmonti (c. 1420)",
+   "kind": "doc",
+   "commons": "File:Map of Constantinople by Cristoforo Buondelmonti, Düsseldorf copy.png",
+   "query": ["Map of Constantinople by Cristoforo Buondelmonti"]
+  },
+  {
+   "id": "P08",
+   "what": "Varangian guards with Dane broadaxes, Madrid Skylitzes",
+   "kind": "photo",
+   "commons": "File:A Thracesian woman kills a Varangian.jpg",
+   "query": ["A Thracesian woman kills a Varangian", "Madrid Skylitzes Varangian"]
+  },
+  {
+   "id": "P09",
+   "what": "11th-century Viking broadaxe head",
+   "kind": "photo",
+   "query": ["Viking broadaxe museum", "Dane axe head 11th century", "Viking battleaxe"]
+  },
+  {
+   "id": "P10",
+   "what": "Anglo-Saxon huscarl with two-handed Dane axe, Bayeux Tapestry",
+   "kind": "photo",
+   "commons": "File:Bayeux Tapestry scene 57 Harold death.jpg",
+   "query": ["Bayeux Tapestry Harold death", "Bayeux Tapestry huscarl"]
+  },
+  {
+   "id": "P11",
+   "what": "Gold Histamenon Nomisma of Emperor Basil II, Constantinople mint",
+   "kind": "photo",
+   "commons": "File:Histamenon nomisma-Basil II and Constantine VIII-sb1806.jpg",
+   "query": ["Histamenon nomisma Basil II", "Basil II gold coin"]
+  },
+  {
+   "id": "P12",
+   "what": "The Ed Runestone U 112, raised by Varangian captain Ragnvald",
+   "kind": "photo",
+   "commons": "File:Runestone U 112, Ed.jpg",
+   "query": ["Runestone U 112 Ed", "Ed runestone Uppland"]
+  },
+  {
+   "id": "P13",
+   "what": "Defeat of the Bulgarians at the Battle of Kleidion, Madrid Skylitzes",
+   "kind": "photo",
+   "commons": "File:The defeat of the Bulgarians at the battle of Kleidion.jpg",
+   "query": ["The defeat of the Bulgarians at the battle of Kleidion", "Battle of Kleidion Skylitzes"]
+  },
+  {
+   "id": "P14",
+   "what": "Fall of Saint Olaf at the Battle of Stiklestad (1030), Peter Nicolai Arbo",
+   "kind": "photo",
+   "commons": "File:Arbo-Olav den helliges fall i slaget på Stiklestad.jpg",
+   "query": ["Arbo Olav den helliges fall", "Stiklestad Arbo"]
+  },
+  {
+   "id": "P15",
+   "what": "Empress Zoe mosaic in Hagia Sophia south gallery",
+   "kind": "photo",
+   "commons": "File:Empress Zoe mosaic Hagia Sophia.jpg",
+   "query": ["Empress Zoe mosaic Hagia Sophia", "Zoe mosaic Hagia Sophia"]
+  },
+  {
+   "id": "P16",
+   "what": "The blinding of Emperor Michael V, Madrid Skylitzes",
+   "kind": "photo",
+   "commons": "File:The blinding of Michael V.jpg",
+   "query": ["The blinding of Michael V", "Blinding Michael V Skylitzes"]
+  },
+  {
+   "id": "P17",
+   "what": "The Battle of Stamford Bridge (1066), Peter Nicolai Arbo",
+   "kind": "photo",
+   "commons": "File:Arbo - Battle of Stamford Bridge (1870).jpg",
+   "query": ["Arbo Battle of Stamford Bridge", "Stamford Bridge Arbo"]
+  },
+  {
+   "id": "P18",
+   "what": "Norman cavalry and knights (11th century)",
+   "kind": "photo",
+   "query": ["Norman cavalry knights Bayeux Tapestry", "Robert Guiscard miniature", "Norman knights 11th century"]
+  },
+  {
+   "id": "P19",
+   "what": "The Capture of Constantinople during the Fourth Crusade (1204), Palma il Giovane",
+   "kind": "photo",
+   "commons": "File:Palma Il Giovane - The Capture of Constantinople - WGA16954.jpg",
+   "query": ["Palma Il Giovane Capture of Constantinople", "Siege of Constantinople 1204 Palma"]
+  },
+  {
+   "id": "P20",
+   "what": "Upper gallery of Hagia Sophia, Istanbul",
+   "kind": "photo",
+   "commons": "File:Hagia Sophia Gallery.jpg",
+   "query": ["Hagia Sophia Gallery", "Hagia Sophia upper gallery"]
+  }
+ ],
+ "recreations": []
+}

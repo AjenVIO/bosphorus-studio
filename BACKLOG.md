@@ -4,12 +4,12 @@ Ordered by expected pull (strongest hook first). The agent takes the first row w
 `todo`, sets it to `doing`, and to `done (E0NN)` when the episode is uploaded. Every fact must still
 be researched and sourced; the hooks below are angles, not verified scripts.
 
-Length: **S** ≈ 8–10 min · **M** ≈ 12–15 min · **L** ≈ 18–22 min.
+Default length is **20 min** (≈2,700 words, 10–12 takes). The S/M/L column is only a hint: S topics may run 15 min, L topics up to 25 min.
 Format note: one wall, maps + archive images. Every episode needs its own layout (AGENTS.md rule 5).
 
 | # | Status | Topic | Hook (angle for the cold open) | Len | Main visuals |
 |---|---|---|---|---|---|
-| 1 | todo | The Varangian Guard | Why Byzantine emperors trusted Viking axemen over their own people | M | Map Scandinavia→Constantinople, runic graffiti in Hagia Sophia, miniatures |
+| 1 | doing | The Varangian Guard | Why Byzantine emperors trusted Viking axemen over their own people | M | Map Scandinavia→Constantinople, runic graffiti in Hagia Sophia, miniatures |
 | 2 | todo | Greek Fire | The weapon that saved Constantinople — and a recipe that was lost | M | Skylitzes miniature, sea-walls map, siege of 674–678 / 717–718 |
 | 3 | todo | The Kafes ("the Cage") | Ottoman princes locked away for decades, some came out to rule | M | Topkapı plans, sultan portraits, timeline of reigns |
 | 4 | todo | The Law of Fratricide | The 1595 morning when a new sultan's brothers were executed | S | Portraits, succession chart, kanunname excerpt |

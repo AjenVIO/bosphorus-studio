@@ -20,8 +20,10 @@ and `engine/references/story.md` once per session: they are the rules for scenes
    `fact_notes` in script.json, one note per claim, with the source.
 3. **script.json.** Takes (sections of 2–4 lines) of lines: `id`, `text`, `spoken` (numbers and dates
    in words), `hero` (what the camera shows), `typed` (big on-screen text or ""). Cold open first,
-   one bridge line ("Three weeks earlier..."), then time only moves forward. Length: 60 s ≈ 150 words,
-   10 min ≈ 1,450 words, 20 min ≈ 2,900 words. Optional `gap_after` (seconds) on a line.
+   one bridge line ("Three weeks earlier..."), then time only moves forward. Length: channel default is **20 min ≈ 2,700 words** at ~135 wpm
+   (60 s ≈ 150 words for tests). **Takes: 10–12 per episode, one per section, ~250 words each**: every
+   take is one free-tier Gemini TTS request, so more takes can exhaust the daily quota.
+   Use `typed` sparingly (max ~40 lines per 20 min). Optional `gap_after` (seconds) on a line.
 4. **Gate 1.**
 5. **photos.json.** One entry per image: `id`, `what`, `kind` (photo|doc), and either `commons`
    ("File:...", exact) or `query` (a Commons search; the workflow picks the first free-licensed hit
