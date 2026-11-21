@@ -1,0 +1,61 @@
+name: voice-samples
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode whose first takes are read"
+        default: "E001-ships-over-land"
+      voices:
+        description: "Comma-separated Gemini voices"
+        default: "Orus,Gacrux"
+      takes:
+        description: "How many takes to read"
+        default: "2"
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash tools/ci.sh {0}
+
+jobs:
+  samples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Install
+        run: bash tools/setup_ci.sh
+      - name: Record
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          mkdir -p samples
+          SRC="episodes/${{ inputs.episode }}"
+          IFS=',' read -ra VS <<< "${{ inputs.voices }}"
+          for v in "${VS[@]}"; do
+            v=$(echo "$v" | xargs); T="/tmp/vs_$v"; rm -rf "$T"; mkdir -p "$T"
+            python - "$SRC" "$T" "$v" "${{ inputs.takes }}" <<'PY'
+          import json, sys, pathlib
+          src, dst, voice, n = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2]), sys.argv[3], int(sys.argv[4])
+          s = json.loads((src / "script.json").read_text()); s["takes"] = s["takes"][:n]
+          (dst / "script.json").write_text(json.dumps(s))
+          vc = json.loads((src / "voice.json").read_text()) if (src / "voice.json").exists() else {}
+          vc["voice"] = voice; (dst / "voice.json").write_text(json.dumps(vc))
+          PY
+            python tools/tts_gemini.py --project "$T"
+            ffmpeg -v error -y -f concat -safe 0 -i <(for f in "$T"/audio/takes/*.wav; do echo "file '$f'"; done) \
+              -af "loudnorm=I=-16:TP=-1.5" -c:a libmp3lame -b:a 160k "samples/voice_${v}.mp3"
+            sleep 5
+          done
+          ls -la samples
+      - name: Publish draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="voices-${{ github.run_number }}"
+          gh release create "$TAG" --draft --title "$TAG" --notes "Voice samples: ${{ inputs.voices }}" samples/*.mp3
