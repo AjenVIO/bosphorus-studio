@@ -24,23 +24,24 @@
   },
   {
    "id": "P04",
-   "what": "Grand Prince Vladimir of Kiev",
+   "what": "Grand Prince Vladimir of Kiev, Tsarskiy Titulyarnik",
    "kind": "photo",
-   "commons": "File:Vladimir I of Kiev (Titulyarnik).jpg",
-   "query": ["Vladimir I of Kiev", "Prince Vladimir Kiev Titulyarnik"]
+   "commons": "File:Vladimir I The Saint.jpg",
+   "query": ["Vladimir I The Saint", "Vladimir I of Kiev", "Prince Vladimir Kiev Titulyarnik"]
   },
   {
    "id": "P05",
    "what": "The Baptism of Saint Prince Vladimir by Viktor Vasnetsov",
    "kind": "photo",
-   "commons": "File:Baptism of Saint Prince Vladimir by Viktor Vasnetsov.jpg",
-   "query": ["Baptism of Saint Prince Vladimir Vasnetsov", "Baptism of Vladimir"]
+   "commons": "File:Vasnetsov Bapt Vladimir.jpg",
+   "query": ["Vasnetsov Bapt Vladimir", "Baptism of Saint Prince Vladimir Vasnetsov", "Baptism of Vladimir"]
   },
   {
    "id": "P06",
    "what": "Varangian longships on the river (Guests from Overseas, Nicholas Roerich)",
    "kind": "photo",
-   "query": ["Guests from Overseas Roerich", "Roerich Guests from Overseas", "Viking ship river painting"]
+   "commons": "File:Nicholas Roerich, Guests from Overseas.jpg",
+   "query": ["Guests from Overseas Roerich", "Roerich Guests from Overseas"]
   },
   {
    "id": "P07",
@@ -58,37 +59,38 @@
   },
   {
    "id": "P09",
-   "what": "11th-century Viking broadaxe head",
+   "what": "11th-century Viking battleaxe head (museum artifact)",
    "kind": "photo",
-   "query": ["Viking broadaxe museum", "Dane axe head 11th century", "Viking battleaxe"]
+   "commons": "File:Broadaxe-IMG 2883-white.jpg",
+   "query": ["Viking battle axe museum", "Viking broadaxe", "Mammen axe museum"]
   },
   {
    "id": "P10",
    "what": "Anglo-Saxon huscarl with two-handed Dane axe, Bayeux Tapestry",
    "kind": "photo",
-   "commons": "File:Bayeux Tapestry scene 57 Harold death.jpg",
-   "query": ["Bayeux Tapestry Harold death", "Bayeux Tapestry huscarl"]
+   "commons": "File:Bayeux Tapestry scene57 Harold death.jpg",
+   "query": ["Bayeux Tapestry scene57 Harold death", "Bayeux Tapestry huscarl axe"]
   },
   {
    "id": "P11",
    "what": "Gold Histamenon Nomisma of Emperor Basil II, Constantinople mint",
    "kind": "photo",
-   "commons": "File:Histamenon nomisma-Basil II and Constantine VIII-sb1806.jpg",
-   "query": ["Histamenon nomisma Basil II", "Basil II gold coin"]
+   "commons": "File:Histamenon of Basil II & Constantine VIII.png",
+   "query": ["Histamenon of Basil II & Constantine VIII", "Histamenon nomisma Basil II", "Basil II gold coin"]
   },
   {
    "id": "P12",
    "what": "The Ed Runestone U 112, raised by Varangian captain Ragnvald",
    "kind": "photo",
-   "commons": "File:Runestone U 112, Ed.jpg",
-   "query": ["Runestone U 112 Ed", "Ed runestone Uppland"]
+   "commons": "File:U 112, Ed.jpg",
+   "query": ["U 112, Ed", "Runestone U 112", "Ed runestone Uppland"]
   },
   {
    "id": "P13",
    "what": "Defeat of the Bulgarians at the Battle of Kleidion, Madrid Skylitzes",
    "kind": "photo",
-   "commons": "File:The defeat of the Bulgarians at the battle of Kleidion.jpg",
-   "query": ["The defeat of the Bulgarians at the battle of Kleidion", "Battle of Kleidion Skylitzes"]
+   "commons": "File:The Chronicle of Ioannis Skylitzis Bulagar Defeat.jpg",
+   "query": ["The Chronicle of Ioannis Skylitzis Bulagar Defeat", "Battle of Kleidion Skylitzes"]
   },
   {
    "id": "P14",
@@ -108,8 +110,8 @@
    "id": "P16",
    "what": "The blinding of Emperor Michael V, Madrid Skylitzes",
    "kind": "photo",
-   "commons": "File:The blinding of Michael V.jpg",
-   "query": ["The blinding of Michael V", "Blinding Michael V Skylitzes"]
+   "commons": "File:Michael V in Madrid Skylitzes.jpg",
+   "query": ["Michael V in Madrid Skylitzes", "The blinding of Michael V", "Blinding Michael V Skylitzes"]
   },
   {
    "id": "P17",
@@ -122,21 +124,21 @@
    "id": "P18",
    "what": "Norman cavalry and knights (11th century)",
    "kind": "photo",
-   "query": ["Norman cavalry knights Bayeux Tapestry", "Robert Guiscard miniature", "Norman knights 11th century"]
+   "commons": "File:Bayeux Tapestry scene51 Battle of Hastings Norman knights and archers.jpg",
+   "query": ["Bayeux Tapestry scene51 Battle of Hastings", "Norman cavalry knights Bayeux Tapestry"]
   },
   {
    "id": "P19",
    "what": "The Capture of Constantinople during the Fourth Crusade (1204), Palma il Giovane",
    "kind": "photo",
-   "commons": "File:Palma Il Giovane - The Capture of Constantinople - WGA16954.jpg",
-   "query": ["Palma Il Giovane Capture of Constantinople", "Siege of Constantinople 1204 Palma"]
+   "commons": "File:PriseDeConstantinople1204PalmaLeJeune.JPG",
+   "query": ["PriseDeConstantinople1204PalmaLeJeune", "Palma Il Giovane Capture of Constantinople"]
   },
   {
    "id": "P20",
    "what": "Upper gallery of Hagia Sophia, Istanbul",
    "kind": "photo",
-   "commons": "File:Hagia Sophia Gallery.jpg",
-   "query": ["Hagia Sophia Gallery", "Hagia Sophia upper gallery"]
+   "query": ["Upper gallery of Hagia Sophia", "Hagia Sophia upper gallery", "Hagia Sophia empore", "Hagia Sophia interior gallery"]
   }
  ],
  "recreations": []

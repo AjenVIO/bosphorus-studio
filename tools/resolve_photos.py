@@ -10,6 +10,9 @@ next run (and fetch_commons.py get) uses the same file. Review the contact sheet
 import argparse, json, pathlib, sys, time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "engine" / "scripts"))
 import fetch_commons as fc
+import re
+# titles that are almost never period material for a history channel
+BAD = re.compile(r"parade|festival|reenact|cosplay|costume|selfie|carnival|fancy dress", re.I)
 
 def main():
     ap = argparse.ArgumentParser()
@@ -21,6 +24,15 @@ def main():
     used = {p.get("commons") for p in spec["photos"] if p.get("commons")}
     missing = 0
     for p in spec["photos"]:
+        if p.get("commons") and not p.get("url"):
+            # verify a guessed file name; fall back to the queries if Commons does not have it
+            r = fc.api(action="query", titles=p["commons"], **fc.IIPROP)
+            pg = ((r.get("query") or {}).get("pages") or [{}])[0]
+            if pg.get("missing") is not None or "imageinfo" not in pg:
+                print(f"{p['id']}: {p['commons']} not on Commons, searching instead")
+                used.discard(p.pop("commons"))
+            else:
+                continue
         if p.get("commons") or p.get("url") or not p.get("query"):
             continue
         queries = p["query"] if isinstance(p["query"], list) else [p["query"]]
@@ -36,6 +48,8 @@ def main():
             if "image/jpeg" not in (d["mime"] or "") and "image/png" not in (d["mime"] or ""):
                 continue
             if (d["w"] or 0) < a.min_width:
+                continue
+            if BAD.search(d["title"]):
                 continue
             pick = d; break
         if not pick:
