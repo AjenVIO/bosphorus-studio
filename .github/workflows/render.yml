@@ -12,9 +12,13 @@ on:
       chunks:
         description: "Parallel render jobs (max 12)"
         default: "8"
+      reuse_run:
+        description: "Skip prep+render, finish from this earlier run id (parts kept 1 day)"
+        default: ""
 
 permissions:
   contents: write
+  actions: read
 
 defaults:
   run:
@@ -25,6 +29,7 @@ env:
 
 jobs:
   prep:
+    if: inputs.reuse_run == ''
     runs-on: ubuntu-latest
     timeout-minutes: 40
     outputs:
@@ -96,6 +101,7 @@ jobs:
 
   render:
     needs: prep
+    if: inputs.reuse_run == ''
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
@@ -124,8 +130,9 @@ jobs:
 
   finish:
     needs: [prep, render]
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -135,15 +142,22 @@ jobs:
           bash tools/setup_ci.sh
 
       - uses: actions/download-artifact@v4
-        with: { name: prepared, path: "${{ env.P }}" }
+        with: { name: prepared, path: "${{ env.P }}", run-id: "${{ inputs.reuse_run || github.run_id }}", github-token: "${{ github.token }}" }
       - uses: actions/download-artifact@v4
-        with: { pattern: "part-*", path: parts, merge-multiple: true }
+        with: { pattern: "part-*", path: parts, merge-multiple: true, run-id: "${{ inputs.reuse_run || github.run_id }}", github-token: "${{ github.token }}" }
       - name: Join and mux
         run: |
           mkdir -p final
           ls parts/part_*.mp4 | sort | sed "s#^#file '$PWD/#; s#\$#'#" > parts/list.txt
           ffmpeg -v error -y -f concat -safe 0 -i parts/list.txt -i "$P/audio/mix.m4a" -map 0:v -map 1:a \
             -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart final/${{ inputs.episode }}.mp4
+          # GitHub release assets must be < 2 GiB: re-encode big renders (YouTube re-encodes anyway)
+          if [ "$(stat -c %s final/${{ inputs.episode }}.mp4)" -gt 1900000000 ]; then
+            mv final/${{ inputs.episode }}.mp4 big.mp4
+            ffmpeg -v error -y -i big.mp4 -c:v libx264 -preset veryfast -crf 21 -maxrate 10M -bufsize 20M -pix_fmt yuv420p \
+              -c:a copy -movflags +faststart final/${{ inputs.episode }}.mp4
+            rm -f big.mp4
+          fi
           python engine/scripts/burn_captions.py --project "$P" --srt-only --out "out/${{ inputs.episode }}.srt"
           cp "$P/out/${{ inputs.episode }}.srt" final/
           cp "$P/credits.md" final/ ; cp -r "$P/out/probe" final/probe ; cp "$P/out/photos_sheet.jpg" final/ || true
@@ -153,6 +167,11 @@ jobs:
       - name: Report failure
         if: failure()
         run: echo "::error title=log::$(tail -n 60 "$RUNNER_TEMP/steps.log" | cut -c1-300 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-${{ inputs.episode }}
+          path: final
+          retention-days: 7
       - name: Publish as draft release (downloadable without artifacts)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -161,8 +180,3 @@ jobs:
           (cd final && zip -qr ../review.zip probe photos_sheet.jpg credits.md photos.resolved.json 2>/dev/null || true)
           gh release create "$TAG" --draft --title "$TAG" --notes "Render of ${{ inputs.episode }} (run ${{ github.run_id }})" \
             final/${{ inputs.episode }}.mp4 final/${{ inputs.episode }}.srt review.zip
-      - uses: actions/upload-artifact@v4
-        with:
-          name: final-${{ inputs.episode }}
-          path: final
-          retention-days: 7
